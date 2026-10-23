@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body><div th:fragment="fields">
+    <div class="form-group"><label for="name">Name</label><input class="form-control" id="name" th:field="*{name}" required><small class="form-error" th:errors="*{name}"></small></div>
+    <div class="form-group"><label for="description">Description</label><textarea class="form-control" id="description" rows="4" th:field="*{description}"></textarea><small class="form-error" th:errors="*{description}"></small></div>
+    <div class="form-group"><label for="imageUrl">Image URL</label><input class="form-control" id="imageUrl" type="url" th:field="*{imageUrl}" required><small class="form-error" th:errors="*{imageUrl}"></small></div>
+    <div class="form-group"><label for="displayOrder">Display order</label><input class="form-control" id="displayOrder" type="number" th:field="*{displayOrder}"></div>
+    <label><input type="checkbox" th:field="*{active}"> Active</label>
+    <div style="margin-top:1.5rem"><button class="btn btn-primary" type="submit">Save category</button><a class="btn btn-secondary" th:href="@{/admin/categories}">Cancel</a></div>
+</div></body></html>

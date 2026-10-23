@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Sign in | EcoNest</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><div th:replace="~{fragments/layout :: header}"></div>
+<main class="section"><div class="container" style="max-width:520px">
+    <div class="section-header"><p class="section-subtitle">Welcome back</p><h1 class="section-title">Sign in</h1><p class="section-desc">Access your EcoNest account.</p></div>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+    <form class="form-card" th:action="@{/login}" method="post">
+        <div class="form-group"><label for="email">Email address</label><input class="form-control" id="email" name="email" type="email" autocomplete="username" required autofocus></div>
+        <div class="form-group"><label for="password">Password</label><input class="form-control" id="password" name="password" type="password" autocomplete="current-password" required></div>
+        <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+    <p style="text-align:center;margin-top:1.5rem">New to EcoNest? <a th:href="@{/register}">Create an account</a></p>
+</div></main><div th:replace="~{fragments/layout :: footer}"></div><div th:replace="~{fragments/layout :: scripts}"></div></body></html>

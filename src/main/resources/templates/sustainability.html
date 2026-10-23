@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Our impact | EcoNest</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<main>
+    <section class="hero-section"><div class="container">
+        <span class="hero-tagline">Better choices, made easier</span>
+        <h1 class="hero-title">A more thoughtful way to shop.</h1>
+        <p class="hero-description">Sustainability is a journey of small, everyday choices. We make it easier to find useful products made with care for people and the planet.</p>
+        <a class="btn btn-hero" th:href="@{/shop}">Explore mindful essentials</a>
+    </div></section>
+    <section class="section"><div class="container">
+        <div class="section-header"><p class="section-subtitle">Our commitments</p><h2 class="section-title">Good things, considered</h2><p class="section-desc">We look beyond the label to help you make informed, lasting choices.</p></div>
+        <div class="benefits-grid">
+            <article class="benefit-card"><span class="benefit-icon-wrapper">01</span><h3 class="benefit-title">Thoughtful materials</h3><p class="benefit-desc">We highlight durable, recycled, renewable, and responsibly sourced materials wherever product details are available.</p></article>
+            <article class="benefit-card"><span class="benefit-icon-wrapper">02</span><h3 class="benefit-title">Made for everyday use</h3><p class="benefit-desc">Reusable and long-lasting options can help reduce reliance on disposable everyday products.</p></article>
+            <article class="benefit-card"><span class="benefit-icon-wrapper">03</span><h3 class="benefit-title">Informed choices</h3><p class="benefit-desc">Product information helps you understand what you are choosing and how it fits your routine.</p></article>
+        </div>
+    </div></section>
+    <section class="section story-section"><div class="container story-grid">
+        <img class="story-image" src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&amp;fit=crop&amp;w=1000&amp;q=80" alt="Green leaves in warm sunlight" loading="lazy">
+        <div class="story-content"><h2>Small swaps add up.</h2><p>There is no single perfect way to live sustainably. Choosing a reusable bottle, a refillable essential, or a product made to last can be a practical place to start.</p><p>EcoNest brings everyday alternatives together so you can find the options that work for you.</p><a class="btn btn-primary" th:href="@{/shop}">Find your next swap</a></div>
+    </div></section>
+</main>
+<div th:replace="~{fragments/layout :: footer}"></div><div th:replace="~{fragments/layout :: scripts}"></div>
+</body></html>

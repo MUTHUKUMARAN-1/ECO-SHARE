@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>My account | EcoNest</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><div th:replace="~{fragments/layout :: header}"></div>
+<main class="section"><div class="container"><div th:replace="~{fragments/layout :: alerts}"></div><h1 class="section-title">Hello, <span th:text="${user.fullName}">there</span></h1>
+    <div class="form-grid-2" style="align-items:start">
+        <form class="form-card" th:action="@{/account/profile}" method="post"><h2>Your profile</h2><div class="form-group"><label for="fullName">Full name</label><input class="form-control" id="fullName" name="fullName" th:value="${user.fullName}" required></div><div class="form-group"><label for="phone">Phone</label><input class="form-control" id="phone" name="phone" th:value="${user.phone}"></div><p class="form-group"><strong>Email:</strong> <span th:text="${user.email}"></span></p><button class="btn btn-primary" type="submit">Save profile</button></form>
+        <section class="form-card"><h2>Your orders</h2><div class="empty-state" th:if="${#lists.isEmpty(orders)}"><p class="empty-state-text">You haven't placed an order yet.</p><a class="btn btn-primary" th:href="@{/shop}">Explore the shop</a></div><div class="table-responsive" th:if="${not #lists.isEmpty(orders)}"><table class="data-table"><thead><tr><th>Order</th><th>Date</th><th>Status</th><th>Total</th><th></th></tr></thead><tbody><tr th:each="order : ${orders}"><td th:text="${order.orderReference}">Order</td><td th:text="${#temporals.format(order.createdAt, 'MMM d, yyyy')}">Date</td><td th:text="${order.status.displayName}">Status</td><td th:text="${'$' + #numbers.formatDecimal(order.totalAmount, 1, 2)}">$0.00</td><td><a th:href="@{/account/orders/{id}(id=${order.id})}">View</a></td></tr></tbody></table></div></section>
+    </div>
+</div></main><div th:replace="~{fragments/layout :: footer}"></div><div th:replace="~{fragments/layout :: scripts}"></div></body></html>

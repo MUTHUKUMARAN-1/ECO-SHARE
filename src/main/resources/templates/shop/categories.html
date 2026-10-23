@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Categories | EcoNest</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><div th:replace="~{fragments/layout :: header}"></div>
+<main class="section"><div class="container">
+    <div class="section-header"><p class="section-subtitle">Browse the collection</p><h1 class="section-title">Shop by category</h1><p class="section-desc">Find thoughtful essentials for every part of your day.</p></div>
+    <div class="categories-grid" th:if="${not #lists.isEmpty(categories)}"><a class="category-card" th:each="category : ${categories}" th:href="@{/categories/{slug}(slug=${category.slug})}"><img class="category-card-image" th:src="${category.imageUrl}" th:alt="${category.name}" loading="lazy"><div class="category-card-content"><h2 class="category-card-title" th:text="${category.name}">Category</h2><p th:text="${category.description}">Description</p><span class="category-card-link">Shop this category</span></div></a></div>
+    <div class="empty-state" th:if="${#lists.isEmpty(categories)}"><h2 class="empty-state-title">Categories coming soon</h2><p class="empty-state-text">Explore the shop to browse our available products.</p><a class="btn btn-primary" th:href="@{/shop}">Browse the shop</a></div>
+</div></main>
+<div th:replace="~{fragments/layout :: footer}"></div><div th:replace="~{fragments/layout :: scripts}"></div></body></html>

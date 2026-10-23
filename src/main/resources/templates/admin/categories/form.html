@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Category form | EcoNest</title><link rel="stylesheet" th:href="@{/css/style.css}"><link rel="stylesheet" th:href="@{/css/admin.css}"></head>
+<body><div th:replace="~{fragments/layout :: header}"></div><main class="section"><div class="container" style="max-width:760px">
+    <div th:replace="~{fragments/layout :: alerts}"></div><p><a th:href="@{/admin/categories}">← Categories</a></p><h1 class="section-title" th:text="${categoryForm.id == null ? 'Add category' : 'Edit category'}">Category</h1>
+    <form class="form-card" th:if="${categoryForm.id == null}" th:action="@{/admin/categories/new}" th:object="${categoryForm}" method="post"><div th:replace="~{admin/categories/form-fields :: fields}"></div></form>
+    <form class="form-card" th:if="${categoryForm.id != null}" th:action="@{/admin/categories/{id}/edit(id=${categoryForm.id})}" th:object="${categoryForm}" method="post"><div th:replace="~{admin/categories/form-fields :: fields}"></div></form>
+</div></main><div th:replace="~{fragments/layout :: footer}"></div><div th:replace="~{fragments/layout :: scripts}"></div></body></html>

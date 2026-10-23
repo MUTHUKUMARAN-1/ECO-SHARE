@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Shop | EcoNest</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<main class="section"><div class="container">
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+    <div class="section-header"><p class="section-subtitle">Better choices, greener living</p><h1 class="section-title">Shop all essentials</h1><p class="section-desc" th:text="${totalItems + ' thoughtfully chosen products'}">Shop our considered collection.</p></div>
+    <form class="form-card" th:action="@{/shop}" method="get" style="margin-bottom:2rem">
+        <div class="form-grid-3">
+            <div class="form-group"><label for="keyword">Search</label><input id="keyword" class="form-control" name="keyword" th:value="${keyword}" placeholder="Product name or description"></div>
+            <div class="form-group"><label for="category">Category</label><select id="category" class="form-control" name="category"><option value="">All categories</option><option th:each="category : ${allCategories}" th:value="${category.id}" th:selected="${selectedCategoryId == category.id}" th:text="${category.name}">Category</option></select></div>
+            <div class="form-group"><label for="sort">Sort by</label><select id="sort" class="form-control" name="sort"><option value="newest" th:selected="${sort == 'newest'}">Newest</option><option value="price-asc" th:selected="${sort == 'price-asc'}">Price: low to high</option><option value="price-desc" th:selected="${sort == 'price-desc'}">Price: high to low</option><option value="name" th:selected="${sort == 'name'}">Name</option></select></div>
+            <div class="form-group"><label for="minPrice">Minimum price</label><input id="minPrice" class="form-control" type="number" step="0.01" min="0" name="minPrice" th:value="${minPrice}"></div>
+            <div class="form-group"><label for="maxPrice">Maximum price</label><input id="maxPrice" class="form-control" type="number" step="0.01" min="0" name="maxPrice" th:value="${maxPrice}"></div>
+            <div class="form-group"><label for="tag">Sustainability tag</label><select id="tag" class="form-control" name="tag"><option value="">Any tag</option><option th:each="tag : ${popularTags}" th:value="${tag}" th:selected="${selectedTag == tag}" th:text="${tag}">Tag</option></select></div>
+        </div>
+        <label style="display:block;margin:0.5rem 0 1rem"><input type="checkbox" name="inStockOnly" value="true" th:checked="${inStockOnly == true}"> In stock only</label>
+        <button class="btn btn-primary" type="submit">Apply filters</button>
+        <a class="btn btn-secondary" th:href="@{/shop}">Clear</a>
+    </form>
+    <div class="products-grid" th:if="${not #lists.isEmpty(products)}">
+        <article class="product-card" th:each="product : ${products}">
+            <a class="product-image-container" th:href="@{/products/{id}(id=${product.id})}"><div class="product-badges"><span class="badge-tag badge-featured" th:if="${product.featured}">Favourite</span><span class="badge-tag" th:if="${product.tagsList != null and not #lists.isEmpty(product.tagsList)}" th:text="${product.tagsList[0]}">Eco</span></div><img class="product-card-image" th:src="${product.imageUrl}" th:alt="${product.name}" loading="lazy"></a>
+            <div class="product-card-body"><span class="product-card-category" th:text="${product.category.name}">Category</span><h2 class="product-card-title"><a th:href="@{/products/{id}(id=${product.id})}" th:text="${product.name}">Product</a></h2><div class="product-card-meta"><span class="product-price" th:text="${'$' + #numbers.formatDecimal(product.price, 1, 2)}">$0.00</span><span class="stock-indicator stock-out" th:if="${product.outOfStock}">Out of stock</span><span class="stock-indicator stock-in" th:if="${not product.outOfStock}">In stock</span></div></div>
+            <div class="product-card-actions"><form th:action="@{/cart/add}" method="post"><input type="hidden" name="productId" th:value="${product.id}"><input type="hidden" name="quantity" value="1"><button class="btn btn-primary btn-block" type="submit" th:disabled="${product.outOfStock}">Add to cart</button></form></div>
+        </article>
+    </div>
+    <div class="empty-state" th:if="${#lists.isEmpty(products)}"><h2 class="empty-state-title">No products found</h2><p class="empty-state-text">Try changing or clearing your filters to see more products.</p><a class="btn btn-primary" th:href="@{/shop}">Clear filters</a></div>
+    <nav class="pagination" th:if="${totalPages > 1}" aria-label="Product pages"><a th:if="${currentPage > 0}" th:href="@{/shop(page=${currentPage - 1},keyword=${keyword},category=${selectedCategoryId},sort=${sort})}">Previous</a><span th:text="${'Page ' + (currentPage + 1) + ' of ' + totalPages}">Page 1</span><a th:if="${currentPage + 1 < totalPages}" th:href="@{/shop(page=${currentPage + 1},keyword=${keyword},category=${selectedCategoryId},sort=${sort})}">Next</a></nav>
+</div></main>
+<div th:replace="~{fragments/layout :: footer}"></div><div th:replace="~{fragments/layout :: scripts}"></div>
+</body></html>

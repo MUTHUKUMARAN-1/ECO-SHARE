@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Order details | EcoNest</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><div th:replace="~{fragments/layout :: header}"></div>
+<main class="section"><div class="container"><p><a th:href="@{/account}">← Back to account</a></p><div class="section-header"><p class="section-subtitle">Order details</p><h1 class="section-title" th:text="${order.orderReference}">Order</h1><p class="section-desc" th:text="${order.status.displayName}">Status</p></div>
+    <div class="form-card"><h2>Items</h2><div class="summary-row" th:each="item : ${order.items}"><span th:text="${item.productName + ' × ' + item.quantity}">Item</span><strong th:text="${'$' + #numbers.formatDecimal(item.subtotal, 1, 2)}">$0.00</strong></div><div class="summary-row"><strong>Total</strong><strong th:text="${'$' + #numbers.formatDecimal(order.totalAmount, 1, 2)}">$0.00</strong></div><h2 style="margin-top:1.5rem">Delivery</h2><p th:text="${order.customerName}">Name</p><p th:text="${order.shippingAddress + ', ' + order.city + ', ' + order.postalCode + ', ' + order.country}">Address</p><p th:text="${order.customerEmail}">Email</p></div>
+</div></main><div th:replace="~{fragments/layout :: footer}"></div><div th:replace="~{fragments/layout :: scripts}"></div></body></html>
+

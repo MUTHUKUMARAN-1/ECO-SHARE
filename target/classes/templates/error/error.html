@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${errorTitle != null ? errorTitle + ' | EcoNest' : 'Error | EcoNest'}">Error | EcoNest</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="fragments/layout :: header"></div>
+
+<main class="container section">
+    <div class="empty-state" style="max-width: 600px; margin: 3rem auto;">
+        <div class="empty-state-icon" style="background-color: var(--color-sage-light); color: var(--color-primary);">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+        </div>
+        <h1 class="empty-state-title" th:text="${errorTitle != null ? errorTitle : 'Unexpected Error'}">Something Went Wrong</h1>
+        <p class="empty-state-text" th:text="${errorMessage != null ? errorMessage : 'We encountered an error while processing your request. Please return home or contact our eco-team.'}">
+            An unexpected error occurred.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <a class="btn btn-primary" th:href="@{/}">Return Home</a>
+            <a class="btn btn-secondary" th:href="@{/shop}">Browse Shop</a>
+        </div>
+    </div>
+</main>
+
+<div th:replace="fragments/layout :: footer"></div>
+<div th:replace="fragments/layout :: scripts"></div>
+</body>
+</html>

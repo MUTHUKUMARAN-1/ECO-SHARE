@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Order confirmed | EcoNest</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><div th:replace="~{fragments/layout :: header}"></div>
+<main class="section"><div class="container" style="max-width:820px">
+    <div class="empty-state"><span class="benefit-icon-wrapper">✓</span><p class="section-subtitle">Thank you for choosing thoughtfully</p><h1 class="section-title">Your order is confirmed</h1><p class="section-desc">Order reference: <strong th:text="${order.orderReference}">ORDER</strong></p><p>A confirmation has been prepared for <span th:text="${order.customerEmail}">your email</span>.</p></div>
+    <section class="form-card"><h2>Order summary</h2><p><strong>Status:</strong> <span th:text="${order.status.displayName}">Pending</span></p><p><strong>Payment:</strong> <span th:text="${order.paymentMethod.displayName}">Payment</span></p><p><strong>Delivery to:</strong> <span th:text="${order.shippingAddress + ', ' + order.city + ', ' + order.country}">Address</span></p>
+        <div class="summary-row" th:each="item : ${order.items}"><span th:text="${item.productName + ' × ' + item.quantity}">Item</span><strong th:text="${'$' + #numbers.formatDecimal(item.subtotal, 1, 2)}">$0.00</strong></div><div class="summary-row"><strong>Total</strong><strong th:text="${'$' + #numbers.formatDecimal(order.totalAmount, 1, 2)}">$0.00</strong></div>
+    </section><p style="text-align:center;margin-top:1.5rem"><a class="btn btn-primary" th:href="@{/shop}">Continue shopping</a></p>
+</div></main><div th:replace="~{fragments/layout :: footer}"></div><div th:replace="~{fragments/layout :: scripts}"></div></body></html>

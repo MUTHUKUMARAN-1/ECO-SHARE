@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Checkout | EcoNest</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><div th:replace="~{fragments/layout :: header}"></div>
+<main class="section"><div class="container">
+    <div th:replace="~{fragments/layout :: alerts}"></div><div class="section-header"><p class="section-subtitle">Almost there</p><h1 class="section-title">Secure checkout</h1></div>
+    <div class="cart-layout">
+        <form class="form-card" th:action="@{/checkout/place-order}" th:object="${checkoutForm}" method="post">
+            <h2>Delivery details</h2>
+            <div class="form-grid-2">
+                <div class="form-group"><label for="customerName">Full name</label><input class="form-control" id="customerName" th:field="*{customerName}" required><small class="form-error" th:errors="*{customerName}"></small></div>
+                <div class="form-group"><label for="customerEmail">Email</label><input class="form-control" id="customerEmail" type="email" th:field="*{customerEmail}" required><small class="form-error" th:errors="*{customerEmail}"></small></div>
+                <div class="form-group"><label for="customerPhone">Phone</label><input class="form-control" id="customerPhone" th:field="*{customerPhone}" required><small class="form-error" th:errors="*{customerPhone}"></small></div>
+                <div class="form-group"><label for="country">Country</label><input class="form-control" id="country" th:field="*{country}" required></div>
+            </div>
+            <div class="form-group"><label for="shippingAddress">Street address</label><input class="form-control" id="shippingAddress" th:field="*{shippingAddress}" required><small class="form-error" th:errors="*{shippingAddress}"></small></div>
+            <div class="form-grid-3">
+                <div class="form-group"><label for="city">City</label><input class="form-control" id="city" th:field="*{city}" required><small class="form-error" th:errors="*{city}"></small></div>
+                <div class="form-group"><label for="state">State</label><input class="form-control" id="state" th:field="*{state}"></div>
+                <div class="form-group"><label for="postalCode">Postal code</label><input class="form-control" id="postalCode" th:field="*{postalCode}" required><small class="form-error" th:errors="*{postalCode}"></small></div>
+            </div>
+            <div class="form-group"><label for="paymentMethod">Payment method</label><select class="form-control" id="paymentMethod" th:field="*{paymentMethod}"><option value="MOCK_ONLINE">Mock Online Payment</option><option value="CASH_ON_DELIVERY">Cash on Delivery (Eco-Verified)</option></select></div>
+            <div class="form-group"><label for="notes">Delivery notes (optional)</label><textarea class="form-control" id="notes" th:field="*{notes}" rows="3"></textarea></div>
+            <button class="btn btn-primary" type="submit">Place order</button>
+        </form>
+        <aside class="cart-summary"><h2>Your items</h2><div class="summary-row" th:each="item : ${cart.items}"><span th:text="${item.productName + ' × ' + item.quantity}">Item</span><strong th:text="${'$' + #numbers.formatDecimal(item.subtotal, 1, 2)}">$0.00</strong></div><div class="summary-row"><span>Total</span><strong th:text="${'$' + #numbers.formatDecimal(cart.totalAmount, 1, 2)}">$0.00</strong></div><a th:href="@{/cart}">Return to cart</a></aside>
+    </div>
+</div></main><div th:replace="~{fragments/layout :: footer}"></div><div th:replace="~{fragments/layout :: scripts}"></div></body></html>

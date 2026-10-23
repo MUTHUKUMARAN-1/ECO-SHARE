@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title th:text="${product.name + ' | EcoNest'}">Product | EcoNest</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<main class="section"><div class="container">
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+    <p><a th:href="@{/shop}">Shop</a> / <span th:text="${product.name}">Product</span></p>
+    <div class="product-details-grid">
+        <div class="product-image-container" style="height:480px"><img class="product-card-image" th:src="${product.imageUrl}" th:alt="${product.name}"></div>
+        <div class="story-content">
+            <span class="product-card-category" th:text="${product.category.name}">Category</span>
+            <h1 class="section-title" th:text="${product.name}">Product name</h1>
+            <p class="product-price" th:text="${'$' + #numbers.formatDecimal(product.price, 1, 2)}">$0.00</p>
+            <p th:text="${product.description}">Product description</p>
+            <p class="stock-indicator stock-out" th:if="${product.outOfStock}">Currently unavailable</p>
+            <p class="stock-indicator stock-in" th:if="${not product.outOfStock}" th:text="${product.stockQuantity + ' available'}">In stock</p>
+            <form th:action="@{/cart/add}" method="post" style="margin:1.5rem 0">
+                <input type="hidden" name="productId" th:value="${product.id}">
+                <label for="quantity">Quantity</label><input class="form-control" id="quantity" name="quantity" type="number" min="1" th:max="${product.stockQuantity}" value="1" style="max-width:120px;margin:.5rem 0 1rem">
+                <button class="btn btn-primary" type="submit" th:disabled="${product.outOfStock}">Add to cart</button>
+            </form>
+            <dl><dt>Materials</dt><dd th:text="${product.materialInfo ?: 'See product description'}">Materials</dd><dt>Packaging</dt><dd th:text="${product.packagingInfo ?: 'Details not provided'}">Packaging</dd><dt>Origin</dt><dd th:text="${product.originCountry ?: 'Details not provided'}">Origin</dd></dl>
+            <p th:if="${not #strings.isEmpty(product.sustainabilityTags)}"><strong>Thoughtful details:</strong> <span th:text="${product.sustainabilityTags}"></span></p>
+        </div>
+    </div>
+    <section class="section" th:if="${not #lists.isEmpty(relatedProducts)}"><h2 class="section-title">You may also like</h2><div class="products-grid"><article class="product-card" th:each="related : ${relatedProducts}"><a th:href="@{/products/{id}(id=${related.id})}"><img class="product-card-image" th:src="${related.imageUrl}" th:alt="${related.name}"><h3 class="product-card-title" th:text="${related.name}">Product</h3></a></article></div></section>
+</div></main>
+<div th:replace="~{fragments/layout :: footer}"></div><div th:replace="~{fragments/layout :: scripts}"></div>
+</body></html>

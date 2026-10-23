@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Thoughtfully chosen sustainable essentials for a greener everyday life.">
+    <title>EcoNest | Better choices. Greener living.</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="announcement-bar">
+    Thoughtful choices, delivered with care.
+    <a th:href="@{/sustainability}">Our sustainability promise</a>
+</div>
+
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="brand-logo" th:href="@{/}" aria-label="EcoNest home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path d="M20.5 3.5C11 3.5 5 7 5 13.5c0 3.2 2.2 5 5 5 6.5 0 10.5-6 10.5-15Z"/>
+                <path d="M3 21c2.3-5 6.4-8.5 12-11"/>
+            </svg>
+            EcoNest
+        </a>
+
+        <nav class="main-nav" aria-label="Main navigation">
+            <a class="nav-link active" th:href="@{/}">Home</a>
+            <a class="nav-link" th:href="@{/shop}">Shop</a>
+            <a class="nav-link" th:href="@{/categories}">Categories</a>
+            <a class="nav-link" th:href="@{/sustainability}">Our impact</a>
+        </nav>
+
+        <div class="header-actions">
+            <form class="header-search-form" th:action="@{/shop}" method="get" role="search">
+                <input class="header-search-input" type="search" name="keyword" placeholder="Find something good">
+                <button class="header-search-btn" type="submit" aria-label="Search">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path>
+                    </svg>
+                </button>
+            </form>
+            <a class="action-icon-btn" th:href="@{/cart}" aria-label="Shopping cart">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                    <path d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 8H6"></path>
+                    <circle cx="10" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle>
+                </svg>
+                <span class="cart-count-badge" th:if="${cartItemCount > 0}" th:text="${cartItemCount}">0</span>
+            </a>
+            <a class="btn btn-outline btn-sm" th:if="${currentUser == null}" th:href="@{/login}">Sign in</a>
+            <a class="btn btn-outline btn-sm" th:if="${currentUser != null}" th:href="@{/account}">My account</a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="container" style="padding-top: 1.5rem;">
+        <div class="alert alert-success" th:if="${successMessage}">
+            <span th:text="${successMessage}">Success</span>
+            <button class="alert-close" type="button" aria-label="Dismiss">×</button>
+        </div>
+        <div class="alert alert-danger" th:if="${errorMessage}">
+            <span th:text="${errorMessage}">Something went wrong</span>
+            <button class="alert-close" type="button" aria-label="Dismiss">×</button>
+        </div>
+    </div>
+
+    <section class="hero-section">
+        <div class="container hero-grid">
+            <div>
+                <span class="hero-tagline">A little better, every day</span>
+                <h1 class="hero-title">Make room for a greener kind of living.</h1>
+                <p class="hero-description">
+                    Everyday essentials, thoughtfully made. Discover useful, beautiful swaps that are kinder to your home and the planet.
+                </p>
+                <div class="hero-cta-group">
+                    <a class="btn btn-hero" th:href="@{/shop}">Explore the collection</a>
+                    <a class="btn btn-outline-light" th:href="@{/sustainability}">Why choose better?</a>
+                </div>
+            </div>
+            <div class="hero-image-wrapper">
+                <img class="hero-image"
+                     src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&amp;fit=crop&amp;w=1000&amp;q=85"
+                     alt="Sunlight falling across a green, sustainable home">
+                <div class="hero-floating-card">
+                    <span class="badge-icon" aria-hidden="true">✦</span>
+                    <span><strong>Good things, considered</strong><br><small>Made for everyday use</small></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" th:if="${not #lists.isEmpty(categories)}">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">Find your everyday essentials</p>
+                <h2 class="section-title">Shop by category</h2>
+                <p class="section-desc">Small changes can make a meaningful difference.</p>
+            </div>
+            <div class="categories-grid">
+                <a class="category-card" th:each="category : ${categories}"
+                   th:href="@{/categories/{slug}(slug=${category.slug})}">
+                    <img class="category-card-image"
+                         th:src="${category.imageUrl}"
+                         th:alt="${category.name}"
+                         loading="lazy">
+                    <div class="category-card-content">
+                        <h3 class="category-card-title" th:text="${category.name}">Category</h3>
+                        <span class="category-card-link">Explore category</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background-color: #f0ede6;">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">Loved for a reason</p>
+                <h2 class="section-title">Thoughtful favourites</h2>
+                <p class="section-desc">Useful, well-made essentials to make your routine a little greener.</p>
+            </div>
+            <div class="products-grid" th:if="${not #lists.isEmpty(featuredProducts)}">
+                <article class="product-card" th:each="product : ${featuredProducts}">
+                    <a class="product-image-container" th:href="@{/products/{id}(id=${product.id})}">
+                        <div class="product-badges">
+                            <span class="badge-tag badge-featured">Favourite</span>
+                            <span class="badge-tag" th:if="${product.tagsList != null and not #lists.isEmpty(product.tagsList)}"
+                                  th:text="${product.tagsList[0]}">Consciously made</span>
+                        </div>
+                        <img class="product-card-image" th:src="${product.imageUrl}" th:alt="${product.name}" loading="lazy">
+                    </a>
+                    <div class="product-card-body">
+                        <span class="product-card-category" th:text="${product.category.name}">Category</span>
+                        <h3 class="product-card-title">
+                            <a th:href="@{/products/{id}(id=${product.id})}" th:text="${product.name}">Product name</a>
+                        </h3>
+                        <div class="product-card-meta">
+                            <span class="product-price" th:text="${'$' + #numbers.formatDecimal(product.price, 1, 2)}">$0.00</span>
+                            <span class="stock-indicator stock-out" th:if="${product.outOfStock}">Out of stock</span>
+                            <span class="stock-indicator stock-low" th:if="${product.lowStock}">Low stock</span>
+                            <span class="stock-indicator stock-in" th:if="${not product.outOfStock and not product.lowStock}">In stock</span>
+                        </div>
+                    </div>
+                    <div class="product-card-actions">
+                        <form th:action="@{/cart/add}" method="post">
+                            <input type="hidden" name="productId" th:value="${product.id}">
+                            <input type="hidden" name="quantity" value="1">
+                            <input type="hidden" name="redirect" value="/">
+                            <button class="btn btn-primary btn-block" type="submit" th:disabled="${product.outOfStock}">
+                                Add to cart
+                            </button>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <div class="empty-state" th:if="${#lists.isEmpty(featuredProducts)}">
+                <h3 class="empty-state-title">Good things are on their way</h3>
+                <p class="empty-state-text">There are no featured products just yet. Browse the shop to see what is available.</p>
+                <a class="btn btn-primary" th:href="@{/shop}">Browse the shop</a>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a class="btn btn-outline" th:href="@{/shop}">View all products</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section benefits-section">
+        <div class="container benefits-grid">
+            <article class="benefit-card">
+                <span class="benefit-icon-wrapper" aria-hidden="true">✦</span>
+                <h3 class="benefit-title">Thoughtfully selected</h3>
+                <p class="benefit-desc">Products chosen for lasting usefulness, considered materials, and everyday quality.</p>
+            </article>
+            <article class="benefit-card">
+                <span class="benefit-icon-wrapper" aria-hidden="true">↻</span>
+                <h3 class="benefit-title">Made to be reused</h3>
+                <p class="benefit-desc">Find practical alternatives that help reduce reliance on single-use essentials.</p>
+            </article>
+            <article class="benefit-card">
+                <span class="benefit-icon-wrapper" aria-hidden="true">♡</span>
+                <h3 class="benefit-title">A gentler footprint</h3>
+                <p class="benefit-desc">Simple, considered swaps to help bring more care into your daily routines.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="newsletter-card">
+                <h3>Good news for a greener everyday</h3>
+                <p>Join our community for thoughtful tips, new finds, and 10% off your first order.</p>
+                <form class="newsletter-form" th:action="@{/newsletter}" method="post">
+                    <label class="sr-only" for="newsletter-email">Email address</label>
+                    <input class="newsletter-input" id="newsletter-email" type="email" name="email"
+                           placeholder="Your email address" required>
+                    <button class="btn btn-hero" type="submit">Join us</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h4>EcoNest</h4>
+                <p>Better choices for a greener everyday. Thoughtful essentials for you and the place we call home.</p>
+            </div>
+            <div>
+                <h4>Explore</h4>
+                <a th:href="@{/shop}">Shop all</a>
+                <a th:href="@{/categories}">Categories</a>
+                <a th:href="@{/sustainability}">Our impact</a>
+            </div>
+            <div>
+                <h4>Help</h4>
+                <a th:href="@{/contact}">Contact us</a>
+                <a th:href="@{/cart}">Your cart</a>
+                <a th:href="@{/account}">My account</a>
+            </div>
+            <div>
+                <h4>Stay in touch</h4>
+                <p>Small steps. Better habits. A brighter future.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© <span th:text="${#dates.year(#dates.createNow())}">2026</span> EcoNest. Better choices. Greener living.</span>
+        </div>
+    </div>
+</footer>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

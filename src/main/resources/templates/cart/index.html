@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Your cart | EcoNest</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><div th:replace="~{fragments/layout :: header}"></div>
+<main class="section"><div class="container">
+    <div th:replace="~{fragments/layout :: alerts}"></div><h1 class="section-title">Your cart</h1>
+    <div class="empty-state" th:if="${cart.empty}"><h2 class="empty-state-title">Your cart is waiting for something good</h2><p class="empty-state-text">Explore thoughtfully chosen essentials for a greener everyday.</p><a class="btn btn-primary" th:href="@{/shop}">Continue shopping</a></div>
+    <div class="cart-layout" th:if="${not cart.empty}">
+        <div>
+            <article class="cart-item" th:each="item : ${cart.items}">
+                <img th:src="${item.imageUrl}" th:alt="${item.productName}" style="width:110px;height:110px;object-fit:cover;border-radius:8px">
+                <div style="flex:1"><h2 class="product-card-title" th:text="${item.productName}">Product</h2><p th:text="${'$' + #numbers.formatDecimal(item.unitPrice, 1, 2) + ' each'}">$0.00 each</p><p class="form-error" th:if="${item.outOfStock or item.quantityExceedsStock}">Please adjust this item; available stock: <span th:text="${item.availableStock}"></span>.</p>
+                    <form th:action="@{/cart/update}" method="post" style="display:flex;gap:.5rem;align-items:center;margin:.5rem 0"><input type="hidden" name="productId" th:value="${item.productId}"><label th:for="${'quantity-' + item.productId}">Qty</label><input class="form-control" style="width:90px" type="number" min="1" th:max="${item.availableStock}" name="quantity" th:id="${'quantity-' + item.productId}" th:value="${item.quantity}"><button class="btn btn-secondary btn-sm" type="submit">Update</button></form>
+                    <form th:action="@{/cart/remove}" method="post"><input type="hidden" name="productId" th:value="${item.productId}"><button class="btn btn-outline btn-sm" type="submit">Remove</button></form>
+                </div><strong th:text="${'$' + #numbers.formatDecimal(item.subtotal, 1, 2)}">$0.00</strong>
+            </article>
+            <form th:action="@{/cart/clear}" method="post" style="margin-top:1rem"><button class="btn btn-secondary btn-sm" type="submit">Clear cart</button></form>
+        </div>
+        <aside class="cart-summary"><h2>Order summary</h2>
+            <form th:action="@{/cart/promo}" method="post" style="display:flex;gap:.5rem;margin:1rem 0"><input class="form-control" name="promoCode" placeholder="Promo code" th:value="${cart.promoCode}"><button class="btn btn-secondary btn-sm" type="submit">Apply</button></form>
+            <p th:if="${not cart.qualifiesForFreeShipping}">Add <strong th:text="${'$' + #numbers.formatDecimal(cart.amountNeededForFreeShipping, 1, 2)}">$0</strong> for free shipping.</p>
+            <div class="summary-row"><span>Subtotal</span><strong th:text="${'$' + #numbers.formatDecimal(cart.subtotal, 1, 2)}">$0.00</strong></div>
+            <div class="summary-row"><span>Shipping</span><strong th:text="${cart.shippingFee == 0 ? 'Free' : '$' + #numbers.formatDecimal(cart.shippingFee, 1, 2)}">Free</strong></div>
+            <div class="summary-row" th:if="${cart.discountAmount > 0}"><span>Discount</span><strong th:text="${'-$' + #numbers.formatDecimal(cart.discountAmount, 1, 2)}">-$0.00</strong></div>
+            <div class="summary-row"><span>Estimated tax</span><strong th:text="${'$' + #numbers.formatDecimal(cart.taxAmount, 1, 2)}">$0.00</strong></div>
+            <div class="summary-row"><strong>Total</strong><strong th:text="${'$' + #numbers.formatDecimal(cart.totalAmount, 1, 2)}">$0.00</strong></div>
+            <a class="btn btn-primary btn-block" th:classappend="${cart.hasStockIssues} ? ' disabled' : ''" th:href="${cart.hasStockIssues} ? @{/cart} : @{/checkout}">Continue to checkout</a>
+        </aside>
+    </div>
+</div></main><div th:replace="~{fragments/layout :: footer}"></div><div th:replace="~{fragments/layout :: scripts}"></div></body></html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="header">
+    <div class="announcement-bar">Thoughtful choices, delivered with care. <a th:href="@{/sustainability}">Our sustainability promise</a></div>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand-logo" th:href="@{/}">EcoNest</a>
+            <nav class="main-nav" aria-label="Main navigation">
+                <a class="nav-link" th:href="@{/}">Home</a>
+                <a class="nav-link" th:href="@{/shop}">Shop</a>
+                <a class="nav-link" th:href="@{/categories}">Categories</a>
+                <a class="nav-link" th:href="@{/sustainability}">Our impact</a>
+            </nav>
+            <div class="header-actions">
+                <form class="header-search-form" th:action="@{/shop}" method="get">
+                    <input class="header-search-input" type="search" name="keyword" placeholder="Search products">
+                    <button class="header-search-btn" type="submit" aria-label="Search">⌕</button>
+                </form>
+                <a class="action-icon-btn" th:href="@{/cart}" aria-label="Shopping cart">Cart
+                    <span class="cart-count-badge" th:if="${cartItemCount > 0}" th:text="${cartItemCount}">0</span>
+                </a>
+                <a class="btn btn-outline btn-sm" th:if="${currentUser == null}" th:href="@{/login}">Sign in</a>
+                <a class="btn btn-outline btn-sm" th:if="${currentUser != null}" th:href="@{/account}">My account</a>
+            </div>
+        </div>
+    </header>
+</div>
+
+<div th:fragment="alerts">
+    <div class="alert alert-success" th:if="${successMessage}">
+        <span th:text="${successMessage}">Success</span><button class="alert-close" type="button" aria-label="Dismiss">×</button>
+    </div>
+    <div class="alert alert-danger" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Error</span><button class="alert-close" type="button" aria-label="Dismiss">×</button>
+    </div>
+</div>
+
+<footer class="site-footer" th:fragment="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand"><h4>EcoNest</h4><p>Better choices for a greener everyday. Thoughtful essentials for you and the place we call home.</p></div>
+            <div><h4>Explore</h4><a th:href="@{/shop}">Shop all</a><a th:href="@{/categories}">Categories</a><a th:href="@{/sustainability}">Our impact</a></div>
+            <div><h4>Help</h4><a th:href="@{/contact}">Contact us</a><a th:href="@{/cart}">Your cart</a><a th:href="@{/account}">My account</a></div>
+            <div><h4>Stay in touch</h4><p>Small steps. Better habits. A brighter future.</p></div>
+        </div>
+        <div class="footer-bottom"><span>© EcoNest. Better choices. Greener living.</span></div>
+    </div>
+</footer>
+
+<div th:fragment="scripts"><script th:src="@{/js/main.js}"></script></div>
+</body>
+</html>

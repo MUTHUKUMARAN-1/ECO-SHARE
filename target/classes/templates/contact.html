@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Contact us | EcoNest</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<main class="section"><div class="container" style="max-width:760px">
+    <div class="section-header"><p class="section-subtitle">We're here to help</p><h1 class="section-title">Get in touch</h1><p class="section-desc">Questions about an order, a product, or making a greener choice? Send us a note.</p></div>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+    <form class="form-card" th:action="@{/contact}" method="post">
+        <div class="form-grid-2">
+            <div class="form-group"><label for="name">Your name</label><input class="form-control" id="name" name="name" required maxlength="100"></div>
+            <div class="form-group"><label for="email">Email address</label><input class="form-control" id="email" name="email" type="email" required></div>
+        </div>
+        <div class="form-group"><label for="subject">Subject</label><input class="form-control" id="subject" name="subject" required maxlength="150"></div>
+        <div class="form-group"><label for="message">How can we help?</label><textarea class="form-control" id="message" name="message" rows="6" required></textarea></div>
+        <button class="btn btn-primary" type="submit">Send message</button>
+    </form>
+</div></main>
+<div th:replace="~{fragments/layout :: footer}"></div><div th:replace="~{fragments/layout :: scripts}"></div>
+</body></html>

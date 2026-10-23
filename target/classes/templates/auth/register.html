@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Create account | EcoNest</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><div th:replace="~{fragments/layout :: header}"></div>
+<main class="section"><div class="container" style="max-width:620px">
+    <div class="section-header"><p class="section-subtitle">Join our community</p><h1 class="section-title">Create your account</h1></div>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+    <form class="form-card" th:action="@{/register}" th:object="${registerForm}" method="post">
+        <div class="form-group"><label for="fullName">Full name</label><input class="form-control" id="fullName" th:field="*{fullName}" autocomplete="name" required><small class="form-error" th:errors="*{fullName}"></small></div>
+        <div class="form-group"><label for="email">Email address</label><input class="form-control" id="email" type="email" th:field="*{email}" autocomplete="email" required><small class="form-error" th:errors="*{email}"></small></div>
+        <div class="form-group"><label for="phone">Phone (optional)</label><input class="form-control" id="phone" th:field="*{phone}" autocomplete="tel"></div>
+        <div class="form-grid-2">
+            <div class="form-group"><label for="password">Password</label><input class="form-control" id="password" type="password" th:field="*{password}" autocomplete="new-password" required><small class="form-error" th:errors="*{password}"></small></div>
+            <div class="form-group"><label for="confirmPassword">Confirm password</label><input class="form-control" id="confirmPassword" type="password" th:field="*{confirmPassword}" autocomplete="new-password" required><small class="form-error" th:errors="*{confirmPassword}"></small></div>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Create account</button>
+    </form>
+    <p style="text-align:center;margin-top:1.5rem">Already registered? <a th:href="@{/login}">Sign in</a></p>
+</div></main><div th:replace="~{fragments/layout :: footer}"></div><div th:replace="~{fragments/layout :: scripts}"></div></body></html>
